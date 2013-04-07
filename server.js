@@ -1,9 +1,9 @@
-var io = require('socket.io').listen(8080),
-    clients = io.sockets.clients();
+var io = require('socket.io').listen(8080);
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'wo' });
-  socket.on('my other event', function (data) {
-    console.log(clients);
-  });
+  socket.join('test');
+  var clients = io.sockets.clients('test');
+  if ( clients.length === 2 ) {
+    io.sockets.in('test').emit('go');
+  }
 });
